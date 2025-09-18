@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hai Maura Cantik 💖</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      font-size: clamp(32px, 8vw, 60px);
+      color: #6b1623;
+      text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+    button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #e63e5e;
+    }
+    p {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #4a0e1a;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Hai Maura Cantik 💖</h1>
+  <button onclick="showMessage()">Coba kamu pencet di bawah ini 💌</button>
+  <p id="pesan">kamu kepo ya sampe mencet ini, btw makasih ya maw aku sayang sama kamuu🥺❤</p>
+
+  <script>
+    function showMessage() {
+      document.getElementById("pesan").style.display = "block";
+    }
+  </script>
+</body>
+</html>
