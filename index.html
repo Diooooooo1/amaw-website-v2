@@ -66,28 +66,13 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       opacity: 0;
       transform: translateY(20px) scale(0.8);
-      animation: muncul 0.5s forwards, wiggle 0.5s ease-in-out 0.5s;
+      animation: muncul 0.5s forwards;
     }
     @keyframes muncul {
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
-    }
-    @keyframes wiggle {
-      0%,100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-3px); }
-    }
-
-    #chatbox button {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: munculBtn 0.5s forwards;
-    }
-    @keyframes munculBtn {
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .love {
@@ -112,6 +97,149 @@
       background: white;
       border-radius: 50%;
       top: 0;
+      opacity: 0.8;
+      pointer-events: none;
+      animation: glitterFall linear infinite;
+    }
+    @keyframes glitterFall {
+      to { transform: translateY(110vh); opacity: 0; }
+    }
+
+    @keyframes fallConfetti {
+      to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    @media screen and (max-width: 480px) {
+      .bubble { font-size: 16px; max-width: 90%; }
+      button { font-size: 16px; padding: 12px 25px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>hai amaw cantik 💖✨</h1>
+  <button onclick="munculPesan()">coba kamu pencet ini 💌❤️</button>
+
+  <div id="chatbox"></div>
+
+  <!-- Musik & sound effect -->
+  <audio id="musik" autoplay loop hidden>
+    <source src="lagu.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="popSound" src="pop.mp3" hidden></audio>
+  <audio id="btnSound" src="click.mp3" hidden></audio>
+
+  <script>
+    function munculPesan() {
+      const pesan = [
+        "kamu kepo ya sampe mencet inii 🤭",
+        "aku sayang sama kamu 🥺❤️",
+        "kamu sayang gaa? hihi"
+      ];
+      const chatbox = document.getElementById('chatbox');
+      chatbox.innerHTML = "";
+      chatbox.style.display = "block";
+
+      let i = 0;
+      function showBubble() {
+        if (i < pesan.length) {
+          const bubble = document.createElement("div");
+          bubble.classList.add("bubble");
+          chatbox.appendChild(bubble);
+
+          // efek typing
+          let j = 0;
+          const msg = pesan[i];
+          const typing = setInterval(() => {
+            bubble.innerText += msg[j];
+            j++;
+            if (j >= msg.length) clearInterval(typing);
+          }, 50);
+
+          // play pop sound
+          const pop = document.getElementById('popSound');
+          pop.currentTime = 0;
+          pop.play();
+
+          i++;
+          setTimeout(showBubble, 1200);
+        } else {
+          const btnYes = document.createElement("button");
+          btnYes.innerText = "Ya ❤️";
+          btnYes.onclick = () => {
+            const btnS = document.getElementById('btnSound');
+            btnS.currentTime = 0;
+            btnS.play();
+            confetti();
+            setTimeout(() => {
+              window.location.href = "https://wa.me/6283847651756?text=Aku%20sayang%20banget%20sama%20kamu%20🥰";
+            }, 800);
+          };
+
+          const btnNo = document.createElement("button");
+          btnNo.innerText = "Tidak 😢";
+          btnNo.onmouseover = () => {
+            btnNo.style.transform = `translate(${Math.random()*50 - 25}px, ${Math.random()*20 - 10}px)`;
+          };
+          btnNo.onclick = () => {
+            const btnS = document.getElementById('btnSound');
+            btnS.currentTime = 0;
+            btnS.play();
+            setTimeout(() => {
+              window.location.href = "https://wa.me/6283847651756?text=Maaf%20aku%20belum%20bisa%20sayang%20😔";
+            }, 200);
+          };
+
+          chatbox.appendChild(btnYes);
+          chatbox.appendChild(btnNo);
+        }
+      }
+      showBubble();
+
+      document.getElementById('musik').play();
+
+      const hearts = ["❤️","💖","💕","💘","💝"];
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("love");
+        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (20 + Math.random() * 20) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s"; 
+        heart.style.transform = `rotate(${Math.random()*360}deg)`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 400);
+
+      setInterval(() => {
+        const glitter = document.createElement("div");
+        glitter.classList.add("glitter");
+        glitter.style.left = Math.random() * 100 + "vw";
+        glitter.style.width = glitter.style.height = (2 + Math.random()*3) + "px";
+        glitter.style.animationDuration = (2 + Math.random()*3) + "s";
+        document.body.appendChild(glitter);
+        setTimeout(() => glitter.remove(), 5000);
+      }, 200);
+
+      // confetti function
+      function confetti() {
+        for (let i=0; i<100; i++) {
+          const c = document.createElement("div");
+          c.style.position = "fixed";
+          c.style.width = c.style.height = "5px";
+          c.style.background = `hsl(${Math.random()*360}, 70%, 60%)`;
+          c.style.left = Math.random() * 100 + "vw";
+          c.style.top = "0";
+          c.style.opacity = 0.9;
+          c.style.borderRadius = "50%";
+          c.style.animation = `fallConfetti ${2 + Math.random()*2}s linear forwards`;
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4000);
+        }
+      }
+    }
+  </script>
+</body>
+</html>      top: 0;
       opacity: 0.8;
       pointer-events: none;
       animation: glitterFall linear infinite;
