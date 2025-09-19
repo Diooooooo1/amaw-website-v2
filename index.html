@@ -3,61 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hai Maura Cantik ❤️</title>
+  <title>Hai Maura Cantik</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      padding: 50px; 
+      background: pink; 
     }
     h1 {
-      color: #fff;
-      font-size: 2.5em;
+      color: white;
     }
-    p {
-      font-size: 1.2em;
-      color: #fff;
-    }
-    button {
-      background: #fff;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1em;
-      margin-top: 20px;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #f8cdda;
+    button { 
+      padding: 10px 20px; 
+      font-size: 16px; 
+      border: none; 
+      border-radius: 8px; 
+      background: red; 
+      color: white; 
+      cursor: pointer; 
     }
   </style>
 </head>
 <body>
-  <h1>Hai Maura Cantik ❤️</h1>
-  <p>Coba pencet tombol ini</p>
-
-  <button onclick="munculPesan()">Klik Aku</button>
-
-  <p id="pesan" style="display:none; margin-top:20px; font-size:1.3em; color:#fff;">
-    Kamu kepo ya sampe pencet ini 😳<br>
-    Btw makasih ya maw, aku sayang sama kamu 🥺❤️
+  <h1>Hai Maura</h1>
+  <p>Coba kamu pencet ini</p>
+  <button onclick="document.getElementById('pesan').style.display='block'">Klik di sini</button>
+  
+  <p id="pesan" style="display:none; margin-top:20px; font-size:18px;">
+    Kamu kepo ya sampe mencet ini 😆<br>
+    Btw makasih ya maw, aku sayang sama kamu 🥺💖
   </p>
 
-  <br><br>
-  <button onclick="document.getElementById('musik').play()">▶️ Putar Lagu</button>
-  <button onclick="document.getElementById('musik').pause()">⏸️ Pause Lagu</button>
-
-  <audio id="musik" autoplay loop>
+  <!-- Auto play musik -->
+  <audio autoplay loop hidden>
     <source src="lagu.mp3" type="audio/mpeg">
-    Browser kamu tidak mendukung audio.
   </audio>
-
-  <script>
-    function munculPesan() {
-      document.getElementById('pesan').style.display = 'block';
-    }
-  </script>
 </body>
 </html>
