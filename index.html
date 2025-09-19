@@ -64,7 +64,7 @@
       opacity: 0;
       transform: translateY(20px) scale(0.8);
       animation: muncul 0.5s forwards;
-      white-space: pre-wrap; /* <-- penting untuk spasi & emoji */
+      white-space: pre-wrap; /* spasi & enter terlihat */
     }
     @keyframes muncul {
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -101,13 +101,17 @@
       ];
       const chatbox=document.getElementById('chatbox'); chatbox.innerHTML=""; chatbox.style.display="block";
       let i=0;
+
       function showBubble(){
         if(i<pesan.length){
           const bubble=document.createElement("div"); bubble.classList.add("bubble"); chatbox.appendChild(bubble);
           let j=0; const msg=pesan[i];
           const typing=setInterval(()=>{
-            bubble.innerText+=msg[j]; j++; if(j>=msg.length) clearInterval(typing);
+            bubble.innerText = msg.slice(0, j+1); // <-- perbaikan spasi & emoji
+            j++;
+            if(j>=msg.length) clearInterval(typing);
           },50);
+
           const pop=document.getElementById('popSound'); pop.currentTime=0; pop.play();
           i++; setTimeout(showBubble,1200);
         } else {
@@ -168,10 +172,4 @@
           c.style.width=c.style.height="5px"; c.style.background=randomColor();
           c.style.left=Math.random()*100+"vw"; c.style.top="0"; c.style.opacity=0.9;
           c.style.borderRadius="50%"; c.style.animation=`fallConfetti ${2+Math.random()*2}s linear forwards`;
-          document.body.appendChild(c); setTimeout(()=>c.remove(),4000);
-        }
-      }
-    }
-  </script>
-</body>
-</html>
+          document.body.appendChild(c); setTimeout(()=>c.remove
