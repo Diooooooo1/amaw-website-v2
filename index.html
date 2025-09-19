@@ -3,32 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hai Maura Cantik</title>
+  <title>Hai Amaww Cantikkk</title>
   <style>
     body { 
-      font-family: Arial, sans-serif; 
+      font-family: 'Poppins', sans-serif; 
       text-align: center; 
       padding: 50px; 
-      background: pink; 
+      background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+    }
+    h1 {
+      font-size: 32px;
+      color: #5a0c1a;
+      margin-bottom: 40px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
     button { 
-      padding: 10px 20px; 
-      font-size: 16px; 
+      padding: 15px 30px; 
+      font-size: 18px; 
       border: none; 
-      border-radius: 8px; 
-      background: red; 
+      border-radius: 30px; 
+      background: #e63950; 
       color: white; 
       cursor: pointer; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #c71c3b;
+      transform: scale(1.05);
+    }
+    #pesan {
+      display: none; 
+      margin-top: 30px; 
+      font-size: 20px; 
+      color: #5a0c1a;
+      white-space: pre-line;
+    }
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <h1>haiii amaww</h1>
-  <button onclick="munculPesan()">pencet ini donggg</button>
+  <h1>Hai Amawww Cantikkk 💖✨</h1>
+  <button onclick="munculPesan()">Coba kamu pencet ini 💌❤️</button>
 
-  <p id="pesan" style="display:none; margin-top:20px; font-size:18px;">
-    Kamu kepo ya sampe mencet inii, aku sayang sama kamu 🥺❤️
-  </p>
+  <p id="pesan"></p>
 
   <!-- Musik -->
   <audio id="musik" loop hidden>
@@ -36,8 +60,24 @@
   </audio>
 
   <script>
-    function munculPesan() {
-      document.getElementById('pesan').style.display = 'block';
+    function munculPesan()
+      const pesan = "Kamu kepo ya sampe mencet iniii aku sayang sama kamu 🥺💖";
+      const pesanEl = document.getElementById('pesan');
+      pesanEl.innerHTML = "";
+      pesanEl.style.display = "block";
+      pesanEl.classList.add("fade-in");
+
+      let i = 0;
+      function ketik() {
+        if (i < pesan.length) {
+          pesanEl.innerHTML += pesan.charAt(i);
+          i++;
+          setTimeout(ketik, 60); // kecepatan ketik
+        }
+      }
+      ketik();
+
+      // play musik
       document.getElementById('musik').play();
     }
   </script>
