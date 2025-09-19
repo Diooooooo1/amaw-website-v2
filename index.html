@@ -11,9 +11,6 @@
       padding: 50px; 
       background: pink; 
     }
-    h1 {
-      color: white;
-    }
     button { 
       padding: 10px 20px; 
       font-size: 16px; 
@@ -26,18 +23,23 @@
   </style>
 </head>
 <body>
-  <h1>Hai Maura</h1>
-  <p>Coba kamu pencet ini</p>
-  <button onclick="document.getElementById('pesan').style.display='block'">Klik di sini</button>
-  
+  <h1>haiii amaww</h1>
+  <button onclick="munculPesan()">pencet ini donggg</button>
+
   <p id="pesan" style="display:none; margin-top:20px; font-size:18px;">
-    Kamu kepo ya sampe mencet ini 😆<br>
-    Btw makasih ya maw, aku sayang sama kamu 🥺💖
+    Kamu kepo ya sampe mencet inii, aku sayang sama kamu 🥺❤️
   </p>
 
-  <!-- Auto play musik -->
-  <audio autoplay loop hidden>
+  <!-- Musik -->
+  <audio id="musik" loop hidden>
     <source src="lagu.mp3" type="audio/mpeg">
   </audio>
+
+  <script>
+    function munculPesan() {
+      document.getElementById('pesan').style.display = 'block';
+      document.getElementById('musik').play();
+    }
+  </script>
 </body>
 </html>
