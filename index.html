@@ -66,13 +66,28 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       opacity: 0;
       transform: translateY(20px) scale(0.8);
-      animation: muncul 0.5s forwards;
+      animation: muncul 0.5s forwards, wiggle 0.5s ease-in-out 0.5s;
     }
     @keyframes muncul {
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
+    }
+    @keyframes wiggle {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-3px); }
+    }
+
+    #chatbox button {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: munculBtn 0.5s forwards;
+    }
+    @keyframes munculBtn {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .love {
@@ -103,10 +118,6 @@
     }
     @keyframes glitterFall {
       to { transform: translateY(110vh); opacity: 0; }
-    }
-
-    @keyframes fallConfetti {
-      to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
 
     @media screen and (max-width: 480px) {
@@ -144,16 +155,9 @@
         if (i < pesan.length) {
           const bubble = document.createElement("div");
           bubble.classList.add("bubble");
+          bubble.style.animationDelay = (i * 0.5) + "s";
+          bubble.innerText = pesan[i];
           chatbox.appendChild(bubble);
-
-          // efek typing
-          let j = 0;
-          const msg = pesan[i];
-          const typing = setInterval(() => {
-            bubble.innerText += msg[j];
-            j++;
-            if (j >= msg.length) clearInterval(typing);
-          }, 50);
 
           // play pop sound
           const pop = document.getElementById('popSound');
@@ -161,25 +165,23 @@
           pop.play();
 
           i++;
-          setTimeout(showBubble, 1200);
+          setTimeout(showBubble, 1000);
         } else {
           const btnYes = document.createElement("button");
           btnYes.innerText = "Ya ❤️";
+          btnYes.style.animationDelay = "0.5s";
           btnYes.onclick = () => {
             const btnS = document.getElementById('btnSound');
             btnS.currentTime = 0;
             btnS.play();
-            confetti();
             setTimeout(() => {
               window.location.href = "https://wa.me/6283847651756?text=Aku%20sayang%20banget%20sama%20kamu%20🥰";
-            }, 800);
+            }, 200);
           };
 
           const btnNo = document.createElement("button");
           btnNo.innerText = "Tidak 😢";
-          btnNo.onmouseover = () => {
-            btnNo.style.transform = `translate(${Math.random()*50 - 25}px, ${Math.random()*20 - 10}px)`;
-          };
+          btnNo.style.animationDelay = "0.7s";
           btnNo.onclick = () => {
             const btnS = document.getElementById('btnSound');
             btnS.currentTime = 0;
@@ -219,23 +221,6 @@
         document.body.appendChild(glitter);
         setTimeout(() => glitter.remove(), 5000);
       }, 200);
-
-      // confetti function
-      function confetti() {
-        for (let i=0; i<100; i++) {
-          const c = document.createElement("div");
-          c.style.position = "fixed";
-          c.style.width = c.style.height = "5px";
-          c.style.background = `hsl(${Math.random()*360}, 70%, 60%)`;
-          c.style.left = Math.random() * 100 + "vw";
-          c.style.top = "0";
-          c.style.opacity = 0.9;
-          c.style.borderRadius = "50%";
-          c.style.animation = `fallConfetti ${2 + Math.random()*2}s linear forwards`;
-          document.body.appendChild(c);
-          setTimeout(() => c.remove(), 4000);
-        }
-      }
     }
   </script>
 </body>
