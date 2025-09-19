@@ -8,19 +8,19 @@
     body { 
       font-family: 'Poppins', sans-serif; 
       text-align: center; 
-      padding: 50px; 
+      padding: 30px; 
       background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
       overflow: hidden;
     }
     h1 {
-      font-size: 32px;
+      font-size: 28px;
       color: #5a0c1a;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
     button { 
       padding: 12px 25px; 
-      font-size: 18px; 
+      font-size: 16px; 
       border: none; 
       border-radius: 30px; 
       background: #e63950; 
@@ -34,19 +34,36 @@
       background: #c71c3b;
       transform: scale(1.05);
     }
-    #pesan {
-      display: none; 
-      margin-top: 30px; 
-      font-size: 20px; 
-      color: #5a0c1a;
-      white-space: pre-line;
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 20px;
     }
-    .fade-in {
-      animation: fadeIn 1s ease forwards;
+    .bubble {
+      max-width: 70%;
+      padding: 12px 18px;
+      border-radius: 18px;
+      background: #fff;
+      color: #333;
+      text-align: left;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Pilihan */
+    #pilihan {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      width: 100%;
     }
 
     /* Love animation */
@@ -69,36 +86,44 @@
   <h1>hai amaw cantik 💖✨</h1>
   <button onclick="munculPesan()">coba kamu pencet ini 💌❤️</button>
 
-  <p id="pesan"></p>
-  <div id="pilihan" style="display:none; margin-top:20px;">
+  <div class="chat-container" id="chat"></div>
+
+  <div id="pilihan">
     <button onclick="jawaban(true)">Ya ❤️</button>
     <button onclick="jawaban(false)">Tidak 😢</button>
   </div>
 
-  <!-- Musik -->
-  <audio id="musik" loop hidden>
+  <!-- Musik auto play -->
+  <audio id="musik" loop autoplay>
     <source src="lagu.mp3" type="audio/mpeg">
   </audio>
 
   <script>
+    const pesanArray = [
+      "kamu kepo ya sampe mencet inii 🤭",
+      "aku sayang sama kamu 🥺❤️",
+      "kamu sayang gaa? hihi"
+    ];
+
     function munculPesan() {
-      const pesan = "kamu kepo ya sampe mencet inii🤭\naku sayang sama kamu 🥺❤️\nkamu sayang gaa? hihi";
-      const pesanEl = document.getElementById('pesan');
-      pesanEl.innerHTML = "";
-      pesanEl.style.display = "block";
-      pesanEl.classList.add("fade-in");
+      const chat = document.getElementById("chat");
+      chat.innerHTML = "";
+      document.getElementById("pilihan").style.display = "none";
 
       let i = 0;
-      function ketik() {
-        if (i < pesan.length) {
-          pesanEl.innerHTML += pesan.charAt(i);
+      function tampilBubble() {
+        if (i < pesanArray.length) {
+          const bubble = document.createElement("div");
+          bubble.classList.add("bubble");
+          bubble.innerText = pesanArray[i];
+          chat.appendChild(bubble);
+          setTimeout(tampilBubble, 1000); // delay antar bubble
           i++;
-          setTimeout(ketik, 60);
         } else {
-          document.getElementById('pilihan').style.display = "block";
+          document.getElementById("pilihan").style.display = "block";
         }
       }
-      ketik();
+      tampilBubble();
 
       // emoji love campur
       const hearts = ["❤️","💖","💕","💘","💝"];
@@ -118,17 +143,15 @@
     }
 
     function jawaban(isYes) {
-      const pesanEl = document.getElementById('pesan');
+      let pesan = "";
       if (isYes) {
-        pesanEl.innerHTML += "\n\nYeay!! Mulai sekarang kita pacaran 💕🥰";
-        document.getElementById('musik').play();
+        pesan = "Aku pilih YA ❤️ Mulai sekarang kita pacaran 🥰";
       } else {
-        pesanEl.innerHTML += "\n\nGapapa, kita tetep temenan kok 🫂";
+        pesan = "Aku pilih TIDAK 😢 Tapi aku mau jelasin...";
       }
-      document.getElementById('pilihan').style.display = "none";
+      // alihkan ke WhatsApp
+      window.location.href = "https://wa.me/6283847651756?text=" + encodeURIComponent(pesan);
     }
   </script>
-</body>
-</html>  </script>
 </body>
 </html>
