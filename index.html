@@ -90,7 +90,7 @@
       }
     }
 
-    .glitter, .sparkle, .trail {
+    .glitter {
       position: fixed;
       width: 4px;
       height: 4px;
@@ -99,25 +99,32 @@
       top: 0;
       opacity: 0.8;
       pointer-events: none;
+      animation: glitterFall linear infinite;
+    }
+    @keyframes glitterFall {
+      to { transform: translateY(110vh); opacity: 0; }
     }
 
-    .glitter { animation: glitterFall linear infinite; }
-    @keyframes glitterFall { to { transform: translateY(110vh); opacity: 0; } }
-
-    .sparkle { animation: sparkleAnim linear infinite; }
+    .sparkle {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
+      animation: sparkleAnim linear infinite;
+    }
     @keyframes sparkleAnim {
       0% { opacity: 0; transform: scale(0) translateY(0); }
       50% { opacity: 1; transform: scale(1) translateY(20px); }
       100% { opacity: 0; transform: scale(0) translateY(40px); }
     }
 
-    .trail { animation: trailAnim 0.8s forwards; }
-    @keyframes trailAnim {
-      0% { opacity: 1; transform: scale(1) translate(0,0); }
-      100% { opacity: 0; transform: scale(0) translate(30px,30px); }
+    @keyframes fallConfetti {
+      to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
-
-    @keyframes fallConfetti { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
 
     @media screen and (max-width: 480px) {
       .bubble { font-size: 16px; max-width: 90%; }
@@ -207,7 +214,6 @@
 
       document.getElementById('musik').play();
 
-      // hearts jatuh
       const hearts = ["❤️","💖","💕","💘","💝"];
       setInterval(() => {
         const heart = document.createElement("div");
@@ -221,7 +227,6 @@
         setTimeout(() => heart.remove(), 5000);
       }, 400);
 
-      // glitter
       setInterval(() => {
         const glitter = document.createElement("div");
         glitter.classList.add("glitter");
@@ -232,7 +237,7 @@
         setTimeout(() => glitter.remove(), 5000);
       }, 200);
 
-      // sparkle background
+      // Sparkle background
       setInterval(() => {
         const sparkle = document.createElement("div");
         sparkle.classList.add("sparkle");
@@ -243,17 +248,6 @@
         document.body.appendChild(sparkle);
         setTimeout(() => sparkle.remove(), 3000);
       }, 150);
-
-      // mouse trail
-      document.addEventListener("mousemove", e => {
-        const trail = document.createElement("div");
-        trail.classList.add("trail");
-        trail.style.left = e.clientX + "px";
-        trail.style.top = e.clientY + "px";
-        trail.style.width = trail.style.height = (2 + Math.random()*4) + "px";
-        document.body.appendChild(trail);
-        setTimeout(() => trail.remove(), 800);
-      });
 
       // confetti function
       function confetti() {
