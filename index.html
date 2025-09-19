@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>hai amaw cantik</title>
+  <title>Hai Amaw Cantik</title>
   <style>
     body { 
       font-family: 'Poppins', sans-serif; 
-      text-align: center; 
-      padding: 50px; 
       background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
-      overflow: hidden;
+      padding: 40px; 
+      overflow-x: hidden;
+      text-align: center;
     }
     h1 {
-      font-size: 32px;
+      font-size: 28px;
       color: #5a0c1a;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
     button { 
-      padding: 15px 30px; 
-      font-size: 18px; 
+      padding: 12px 25px; 
+      font-size: 16px; 
       border: none; 
-      border-radius: 30px; 
+      border-radius: 25px; 
       background: #e63950; 
       color: white; 
       cursor: pointer; 
@@ -33,42 +33,50 @@
       background: #c71c3b;
       transform: scale(1.05);
     }
-    #pesan {
-      display: none; 
-      margin-top: 30px; 
-      font-size: 20px; 
-      color: #5a0c1a;
-      white-space: pre-line;
+
+    /* Chat bubble */
+    .chat-container {
+      margin-top: 30px;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .fade-in {
-      animation: fadeIn 1s ease forwards;
+    .bubble {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 20px;
+      margin: 8px 0;
+      max-width: 80%;
+      font-size: 16px;
+      animation: fadeInUp 0.6s ease both;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .left {
+      background: #fff;
+      color: #333;
+      border-bottom-left-radius: 5px;
+      text-align: left;
+    }
+    .right {
+      background: #e63950;
+      color: white;
+      border-bottom-right-radius: 5px;
+      text-align: right;
+      margin-left: auto;
+      display: block;
     }
 
-    /* Love animation */
-    .love {
-      position: fixed;
-      top: -20px;
-      font-size: 24px;
-      animation: jatuh linear forwards;
-      pointer-events: none;
-    }
-    @keyframes jatuh {
-      to {
-        transform: translateY(110vh);
-        opacity: 0;
-      }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <h1>hai amaw cantik 💖✨</h1>
-  <button onclick="munculPesan()">coba kamu pencet ini 💌❤️</button>
+  <button onclick="munculChat()">coba kamu pencet ini 💌❤️</button>
 
-  <div id="pesan"></div>
+  <div class="chat-container" id="chat"></div>
 
   <!-- Musik -->
   <audio id="musik" loop hidden>
@@ -76,68 +84,31 @@
   </audio>
 
   <script>
-    function munculPesan() {
-      const pesanList = [
-        "1. kamu kepo ya sampe mencet inii 🤭",
-        "2. aku sayang sama kamu 🥺❤️",
-        "3. kamu sayang gaa? hihi 💕"
-      ];
+    const messages = [
+      { text: "kamu kepo ya sampe pencet ini 🤭", side: "left" },
+      { text: "btw makasih ya maw 🥺", side: "right" },
+      { text: "aku sayang sama kamu ❤️", side: "left" },
+      { text: "kamu sayang gaa sama aku? hihi 💕", side: "right" }
+    ];
 
-      const pesanEl = document.getElementById('pesan');
-      pesanEl.innerHTML = "";
-      pesanEl.style.display = "block";
-      pesanEl.classList.add("fade-in");
-
-      let index = 0;
-
-      function ketikPesan(teks, callback) {
-        let i = 0;
-        const p = document.createElement("p");
-        pesanEl.appendChild(p);
-
-        function ketik() {
-          if (i < teks.length) {
-            p.innerHTML += teks.charAt(i);
-            i++;
-            setTimeout(ketik, 60);
-          } else if (callback) {
-            setTimeout(callback, 800); // jeda sebelum pesan berikutnya
-          }
-        }
-        ketik();
-      }
-
-      function tampilkanSemua() {
-        if (index < pesanList.length) {
-          ketikPesan(pesanList[index], tampilkanSemua);
-          index++;
-        }
-      }
-
-      tampilkanSemua();
-
-      // play musik
+    function munculChat() {
       document.getElementById('musik').play();
+      const chatBox = document.getElementById("chat");
+      chatBox.innerHTML = "";
 
-      // emoji love campur
-      const hearts = ["❤️","💖","💕","💘","💝"];
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("love");
-        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (20 + Math.random() * 15) + "px";
-        heart.style.animationDuration = (3 + Math.random() * 2) + "s"; 
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-          heart.remove();
-        }, 5000);
-      }, 500);
+      let i = 0;
+      function nextMsg() {
+        if (i < messages.length) {
+          const msg = document.createElement("div");
+          msg.classList.add("bubble", messages[i].side);
+          msg.innerText = messages[i].text;
+          chatBox.appendChild(msg);
+          i++;
+          setTimeout(nextMsg, 1500);
+        }
+      }
+      nextMsg();
     }
-  </script>
-</body>
-</html>    }
   </script>
 </body>
 </html>
