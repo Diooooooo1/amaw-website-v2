@@ -68,7 +68,7 @@
   <h1>hai amaw cantik 💖✨</h1>
   <button onclick="munculPesan()">coba kamu pencet ini 💌❤️</button>
 
-  <p id="pesan"></p>
+  <div id="pesan"></div>
 
   <!-- Musik -->
   <audio id="musik" loop hidden>
@@ -77,21 +77,44 @@
 
   <script>
     function munculPesan() {
-      const pesan = "kamu kepo ya sampe mencet inii🤭 aku sayang sama kamu 🥺❤️, kamu sayang gaa? hihi";
+      const pesanList = [
+        "1. kamu kepo ya sampe mencet inii 🤭",
+        "2. aku sayang sama kamu 🥺❤️",
+        "3. kamu sayang gaa? hihi 💕"
+      ];
+
       const pesanEl = document.getElementById('pesan');
       pesanEl.innerHTML = "";
       pesanEl.style.display = "block";
       pesanEl.classList.add("fade-in");
 
-      let i = 0;
-      function ketik() {
-        if (i < pesan.length) {
-          pesanEl.innerHTML += pesan.charAt(i);
-          i++;
-          setTimeout(ketik, 60);
+      let index = 0;
+
+      function ketikPesan(teks, callback) {
+        let i = 0;
+        const p = document.createElement("p");
+        pesanEl.appendChild(p);
+
+        function ketik() {
+          if (i < teks.length) {
+            p.innerHTML += teks.charAt(i);
+            i++;
+            setTimeout(ketik, 60);
+          } else if (callback) {
+            setTimeout(callback, 800); // jeda sebelum pesan berikutnya
+          }
+        }
+        ketik();
+      }
+
+      function tampilkanSemua() {
+        if (index < pesanList.length) {
+          ketikPesan(pesanList[index], tampilkanSemua);
+          index++;
         }
       }
-      ketik();
+
+      tampilkanSemua();
 
       // play musik
       document.getElementById('musik').play();
@@ -112,6 +135,9 @@
         }, 5000);
       }, 500);
     }
+  </script>
+</body>
+</html>    }
   </script>
 </body>
 </html>
