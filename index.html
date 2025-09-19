@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hai Amaw Cantik</title>
+  <title>Hai Maura Cantik</title>
   <style>
     body { 
       font-family: 'Poppins', sans-serif; 
+      text-align: center; 
+      padding: 50px; 
       background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
-      padding: 40px; 
-      overflow-x: hidden;
-      text-align: center;
+      overflow: hidden;
     }
     h1 {
-      font-size: 28px;
+      font-size: 32px;
       color: #5a0c1a;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
     button { 
-      padding: 12px 25px; 
-      font-size: 16px; 
+      padding: 15px 30px; 
+      font-size: 18px; 
       border: none; 
-      border-radius: 25px; 
+      border-radius: 30px; 
       background: #e63950; 
       color: white; 
       cursor: pointer; 
@@ -33,67 +33,28 @@
       background: #c71c3b;
       transform: scale(1.05);
     }
-
-    /* Chat bubble */
-    .chat-container {
-      margin-top: 30px;
-      text-align: left;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
+    #pesan {
+      display: none; 
+      margin-top: 30px; 
+      font-size: 20px; 
+      color: #5a0c1a;
+      white-space: pre-line;
     }
-    .bubble {
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 20px;
-      margin: 8px 0;
-      max-width: 80%;
-      font-size: 16px;
-      animation: fadeInUp 0.6s ease both;
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
     }
-    .left {
-      background: #fff;
-      color: #333;
-      border-bottom-left-radius: 5px;
-      text-align: left;
-    }
-    .right {
-      background: #e63950;
-      color: white;
-      border-bottom-right-radius: 5px;
-      text-align: right;
-      margin-left: auto;
-      display: block;
-    }
-    .choices {
-      margin-top: 15px;
-      text-align: center;
-    }
-    .choice-btn {
-      padding: 10px 20px;
-      font-size: 14px;
-      border: none;
-      border-radius: 20px;
-      margin: 5px;
-      cursor: pointer;
-      color: white;
-    }
-    .yes { background: #28a745; }
-    .no { background: #dc3545; }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    /* Emoji jatuh */
-    .emoji {
+    /* Love animation */
+    .love {
       position: fixed;
       top: -20px;
       font-size: 24px;
       animation: jatuh linear forwards;
       pointer-events: none;
-      z-index: 9999;
     }
     @keyframes jatuh {
       to {
@@ -104,10 +65,10 @@
   </style>
 </head>
 <body>
-  <h1>hai amaw cantik 💖✨</h1>
-  <button onclick="munculChat()">coba kamu pencet ini 💌❤️</button>
+  <h1>Hai Maura Cantik 💖✨</h1>
+  <button onclick="munculPesan()">Coba kamu pencet ini 💌❤️</button>
 
-  <div class="chat-container" id="chat"></div>
+  <p id="pesan"></p>
 
   <!-- Musik -->
   <audio id="musik" loop hidden>
@@ -115,78 +76,41 @@
   </audio>
 
   <script>
-    const messages = [
-      { text: "Aku mau bilang sesuatu 🤭", side: "left" },
-      { text: "Aku tuh sayang banget sama kamu 🥺❤️", side: "left" },
-      { text: "Kamu mau nggak jadi bagian spesial di hidup aku? 💕", side: "left" }
-    ];
-
-    function munculChat() {
-      document.getElementById('musik').play();
-      const chatBox = document.getElementById("chat");
-      chatBox.innerHTML = "";
+    function munculPesan() {
+      const pesan = "Kamu kepo ya sampe mencet ini 😆\nBtw makasih ya maw, aku sayang sama kamu 🥺❤️";
+      const pesanEl = document.getElementById('pesan');
+      pesanEl.innerHTML = "";
+      pesanEl.style.display = "block";
+      pesanEl.classList.add("fade-in");
 
       let i = 0;
-      function nextMsg() {
-        if (i < messages.length) {
-          const msg = document.createElement("div");
-          msg.classList.add("bubble", messages[i].side);
-          msg.innerText = messages[i].text;
-          chatBox.appendChild(msg);
+      function ketik() {
+        if (i < pesan.length) {
+          pesanEl.innerHTML += pesan.charAt(i);
           i++;
-          setTimeout(nextMsg, 1500);
-        } else {
-          // munculkan pilihan Ya / Tidak
-          const choices = document.createElement("div");
-          choices.classList.add("choices");
-          choices.innerHTML = `
-            <button class="choice-btn yes" onclick="jawaban(true)">Ya ❤️</button>
-            <button class="choice-btn no" onclick="jawaban(false)">Tidak 💔</button>
-          `;
-          chatBox.appendChild(choices);
+          setTimeout(ketik, 60);
         }
       }
-      nextMsg();
-    }
+      ketik();
 
-    function jawaban(isYes) {
-      const chatBox = document.getElementById("chat");
-      const reply = document.createElement("div");
-      reply.classList.add("bubble", "right");
-      reply.innerText = isYes ? "Ya ❤️" : "Tidak 💔";
-      chatBox.appendChild(reply);
+      // play musik
+      document.getElementById('musik').play();
 
-      setTimeout(() => {
-        const msg = document.createElement("div");
-        msg.classList.add("bubble", "left");
-        msg.innerText = isYes 
-          ? "Mulai sekarang kita resmi pacaran 💕✨" 
-          : "Oke, kita tetap temenan baik aja ya 🥺🤍";
-        chatBox.appendChild(msg);
+      // emoji love campur
+      const hearts = ["❤️","💖","💕","💘","💝"];
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("love");
+        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (20 + Math.random() * 15) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 2) + "s"; 
+        document.body.appendChild(heart);
 
-        // efek emoji jatuh
-        if (isYes) {
-          jatuhinEmoji(["❤️","💖","💕","💘","💝"]);
-        } else {
-          jatuhinEmoji(["💔","😢","🥀"]);
-        }
-      }, 1000);
-    }
-
-    function jatuhinEmoji(emojis) {
-      const interval = setInterval(() => {
-        const e = document.createElement("div");
-        e.classList.add("emoji");
-        e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        e.style.left = Math.random() * 100 + "vw";
-        e.style.fontSize = (20 + Math.random() * 20) + "px";
-        e.style.animationDuration = (3 + Math.random() * 2) + "s"; 
-        document.body.appendChild(e);
-
-        setTimeout(() => e.remove(), 5000);
-      }, 300);
-
-      setTimeout(() => clearInterval(interval), 5000); // berhenti setelah 5 detik
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }, 500);
     }
   </script>
 </body>
