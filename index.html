@@ -10,9 +10,17 @@
       text-align: center; 
       padding: 50px; 
       background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+      background-size: 400% 400%;
+      animation: bgMove 20s ease infinite;
       overflow: hidden;
       position: relative;
     }
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     h1 {
       font-size: 32px;
       color: #5a0c1a;
@@ -30,11 +38,13 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       transition: 0.3s;
       margin: 5px;
+      opacity: 1;
     }
     button:hover {
       background: #c71c3b;
       transform: scale(1.05);
     }
+
     #chatbox {
       display: none; 
       margin-top: 30px; 
@@ -43,6 +53,7 @@
       margin-left: auto;
       margin-right: auto;
     }
+
     .bubble {
       background: #fff;
       padding: 12px 18px;
@@ -54,13 +65,13 @@
       color: #5a0c1a;
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(20px) scale(0.8);
       animation: muncul 0.5s forwards, wiggle 0.5s ease-in-out 0.5s;
     }
     @keyframes muncul {
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
     @keyframes wiggle {
@@ -70,7 +81,15 @@
       75% { transform: translateX(-3px); }
     }
 
-    /* Love animation */
+    #chatbox button {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: munculBtn 0.5s forwards;
+    }
+    @keyframes munculBtn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .love {
       position: fixed;
       top: -20px;
@@ -86,7 +105,6 @@
       }
     }
 
-    /* Glitter background */
     .glitter {
       position: fixed;
       width: 4px;
@@ -101,6 +119,11 @@
     @keyframes glitterFall {
       to { transform: translateY(110vh); opacity: 0; }
     }
+
+    @media screen and (max-width: 480px) {
+      .bubble { font-size: 16px; max-width: 90%; }
+      button { font-size: 16px; padding: 12px 25px; }
+    }
   </style>
 </head>
 <body>
@@ -109,10 +132,12 @@
 
   <div id="chatbox"></div>
 
-  <!-- Musik -->
+  <!-- Musik & sound effect -->
   <audio id="musik" autoplay loop hidden>
     <source src="lagu.mp3" type="audio/mpeg">
   </audio>
+  <audio id="popSound" src="pop.mp3" hidden></audio>
+  <audio id="btnSound" src="click.mp3" hidden></audio>
 
   <script>
     function munculPesan() {
@@ -133,19 +158,39 @@
           bubble.style.animationDelay = (i * 0.5) + "s";
           bubble.innerText = pesan[i];
           chatbox.appendChild(bubble);
+
+          // play pop sound
+          const pop = document.getElementById('popSound');
+          pop.currentTime = 0;
+          pop.play();
+
           i++;
           setTimeout(showBubble, 1000);
         } else {
           const btnYes = document.createElement("button");
           btnYes.innerText = "Ya ❤️";
+          btnYes.style.animationDelay = "0.5s";
           btnYes.onclick = () => {
-            window.location.href = "https://wa.me/6283847651756?text=Aku%20sayang%20banget%20sama%20kamu%20🥰";
+            const btnS = document.getElementById('btnSound');
+            btnS.currentTime = 0;
+            btnS.play();
+            setTimeout(() => {
+              window.location.href = "https://wa.me/6283847651756?text=Aku%20sayang%20banget%20sama%20kamu%20🥰";
+            }, 200);
           };
+
           const btnNo = document.createElement("button");
           btnNo.innerText = "Tidak 😢";
+          btnNo.style.animationDelay = "0.7s";
           btnNo.onclick = () => {
-            window.location.href = "https://wa.me/6283847651756?text=Maaf%20aku%20belum%20bisa%20sayang%20😔";
+            const btnS = document.getElementById('btnSound');
+            btnS.currentTime = 0;
+            btnS.play();
+            setTimeout(() => {
+              window.location.href = "https://wa.me/6283847651756?text=Maaf%20aku%20belum%20bisa%20sayang%20😔";
+            }, 200);
           };
+
           chatbox.appendChild(btnYes);
           chatbox.appendChild(btnNo);
         }
@@ -162,14 +207,11 @@
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.fontSize = (20 + Math.random() * 20) + "px";
         heart.style.animationDuration = (3 + Math.random() * 3) + "s"; 
+        heart.style.transform = `rotate(${Math.random()*360}deg)`;
         document.body.appendChild(heart);
-
-        setTimeout(() => {
-          heart.remove();
-        }, 5000);
+        setTimeout(() => heart.remove(), 5000);
       }, 400);
 
-      // Glitter soft
       setInterval(() => {
         const glitter = document.createElement("div");
         glitter.classList.add("glitter");
