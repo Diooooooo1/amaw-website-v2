@@ -64,19 +64,12 @@
       opacity: 0;
       transform: translateY(20px) scale(0.8);
       animation: muncul 0.5s forwards;
+      white-space: pre-wrap; /* <-- penting untuk spasi & emoji */
     }
     @keyframes muncul {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .love, .glitter, .sparkle, .trail {
-      position: fixed;
-      border-radius: 50%;
-      top: 0;
-      pointer-events: none;
-    }
+    .love, .glitter, .sparkle, .trail { position: fixed; border-radius: 50%; top: 0; pointer-events: none; }
     .love { font-size: 24px; animation: jatuh linear forwards; opacity: 0.9; }
     @keyframes jatuh { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
     .glitter { width: 4px; height: 4px; animation: glitterFall linear infinite; opacity: 0.8; }
@@ -99,18 +92,22 @@
   <audio id="btnSound" src="click.mp3" hidden></audio>
 
   <script>
-    function randomColor() { return `hsl(${Math.random()*360},70%,60%)`; }
-    function munculPesan() {
-      const pesan = ["kamu kepo ya sampe mencet inii 🤭","aku sayang sama kamu 🥺❤️","kamu sayang gaa? hihi"];
-      const chatbox = document.getElementById('chatbox');
-      chatbox.innerHTML = ""; chatbox.style.display = "block";
-
-      let i = 0;
-      function showBubble() {
+    function randomColor(){return `hsl(${Math.random()*360},70%,60%)`;}
+    function munculPesan(){
+      const pesan=[
+        "kamu kepo ya sampe mencet inii 🤭",
+        "aku sayang sama kamu 🥺❤️",
+        "kamu sayang gaa? hihi"
+      ];
+      const chatbox=document.getElementById('chatbox'); chatbox.innerHTML=""; chatbox.style.display="block";
+      let i=0;
+      function showBubble(){
         if(i<pesan.length){
           const bubble=document.createElement("div"); bubble.classList.add("bubble"); chatbox.appendChild(bubble);
           let j=0; const msg=pesan[i];
-          const typing=setInterval(()=>{bubble.innerText+=msg[j]; j++; if(j>=msg.length) clearInterval(typing);},50);
+          const typing=setInterval(()=>{
+            bubble.innerText+=msg[j]; j++; if(j>=msg.length) clearInterval(typing);
+          },50);
           const pop=document.getElementById('popSound'); pop.currentTime=0; pop.play();
           i++; setTimeout(showBubble,1200);
         } else {
