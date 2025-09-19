@@ -65,10 +65,41 @@
       margin-left: auto;
       display: block;
     }
+    .choices {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .choice-btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      border: none;
+      border-radius: 20px;
+      margin: 5px;
+      cursor: pointer;
+      color: white;
+    }
+    .yes { background: #28a745; }
+    .no { background: #dc3545; }
 
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Emoji jatuh */
+    .emoji {
+      position: fixed;
+      top: -20px;
+      font-size: 24px;
+      animation: jatuh linear forwards;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    @keyframes jatuh {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -85,10 +116,9 @@
 
   <script>
     const messages = [
-      { text: "kamu kepo ya sampe pencet ini 🤭", side: "left" },
-      { text: "btw makasih ya maw 🥺", side: "right" },
-      { text: "aku sayang sama kamu ❤️", side: "left" },
-      { text: "kamu sayang gaa sama aku? hihi 💕", side: "right" }
+      { text: "Aku mau bilang sesuatu 🤭", side: "left" },
+      { text: "Aku tuh sayang banget sama kamu 🥺❤️", side: "left" },
+      { text: "Kamu mau nggak jadi bagian spesial di hidup aku? 💕", side: "left" }
     ];
 
     function munculChat() {
@@ -105,9 +135,58 @@
           chatBox.appendChild(msg);
           i++;
           setTimeout(nextMsg, 1500);
+        } else {
+          // munculkan pilihan Ya / Tidak
+          const choices = document.createElement("div");
+          choices.classList.add("choices");
+          choices.innerHTML = `
+            <button class="choice-btn yes" onclick="jawaban(true)">Ya ❤️</button>
+            <button class="choice-btn no" onclick="jawaban(false)">Tidak 💔</button>
+          `;
+          chatBox.appendChild(choices);
         }
       }
       nextMsg();
+    }
+
+    function jawaban(isYes) {
+      const chatBox = document.getElementById("chat");
+      const reply = document.createElement("div");
+      reply.classList.add("bubble", "right");
+      reply.innerText = isYes ? "Ya ❤️" : "Tidak 💔";
+      chatBox.appendChild(reply);
+
+      setTimeout(() => {
+        const msg = document.createElement("div");
+        msg.classList.add("bubble", "left");
+        msg.innerText = isYes 
+          ? "Mulai sekarang kita resmi pacaran 💕✨" 
+          : "Oke, kita tetap temenan baik aja ya 🥺🤍";
+        chatBox.appendChild(msg);
+
+        // efek emoji jatuh
+        if (isYes) {
+          jatuhinEmoji(["❤️","💖","💕","💘","💝"]);
+        } else {
+          jatuhinEmoji(["💔","😢","🥀"]);
+        }
+      }, 1000);
+    }
+
+    function jatuhinEmoji(emojis) {
+      const interval = setInterval(() => {
+        const e = document.createElement("div");
+        e.classList.add("emoji");
+        e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        e.style.left = Math.random() * 100 + "vw";
+        e.style.fontSize = (20 + Math.random() * 20) + "px";
+        e.style.animationDuration = (3 + Math.random() * 2) + "s"; 
+        document.body.appendChild(e);
+
+        setTimeout(() => e.remove(), 5000);
+      }, 300);
+
+      setTimeout(() => clearInterval(interval), 5000); // berhenti setelah 5 detik
     }
   </script>
 </body>
