@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hai Amaww Cantikkk</title>
+  <title>hai amaw cantik</title>
   <style>
     body { 
       font-family: 'Poppins', sans-serif; 
       text-align: center; 
       padding: 50px; 
       background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+      overflow: hidden;
     }
     h1 {
       font-size: 32px;
@@ -46,11 +47,26 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    /* Love animation */
+    .love {
+      position: fixed;
+      top: -20px;
+      font-size: 24px;
+      animation: jatuh linear forwards;
+      pointer-events: none;
+    }
+    @keyframes jatuh {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Hai Amawww Cantikkk 💖✨</h1>
-  <button onclick="munculPesan()">Coba kamu pencet ini 💌💖</button>
+  <h1>hai amaw cantik 💖✨</h1>
+  <button onclick="munculPesan()">coba kamu pencet ini 💌❤️</button>
 
   <p id="pesan"></p>
 
@@ -60,8 +76,8 @@
   </audio>
 
   <script>
-    function munculPesan()
-      const pesan = "Kamu kepo ya sampe mencet iniii aku sayang sama kamu 🥺💖";
+    function munculPesan() {
+      const pesan = "kamu kepo ya sampe mencet inii🤭 aku sayang sama kamu 🥺❤️, kamu sayang gaa? hihi";
       const pesanEl = document.getElementById('pesan');
       pesanEl.innerHTML = "";
       pesanEl.style.display = "block";
@@ -72,13 +88,29 @@
         if (i < pesan.length) {
           pesanEl.innerHTML += pesan.charAt(i);
           i++;
-          setTimeout(ketik, 60); // kecepatan ketik
+          setTimeout(ketik, 60);
         }
       }
       ketik();
 
       // play musik
       document.getElementById('musik').play();
+
+      // emoji love campur
+      const hearts = ["❤️","💖","💕","💘","💝"];
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("love");
+        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (20 + Math.random() * 15) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 2) + "s"; 
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }, 500);
     }
   </script>
 </body>
